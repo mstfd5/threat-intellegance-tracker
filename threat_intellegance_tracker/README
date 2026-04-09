@@ -1,0 +1,15 @@
+# Threat Intelligence Tracker (WIP)
+
+**Status:** This project is currently in active development (Work in Progress).
+
+This backend tool is being developed to automatically fetch, parse, and analyze malicious IP addresses and vulnerability reports from open-source threat intelligence platforms (currently utilizing AbuseIPDB).
+
+### Current Features (v0.1)
+* Established AbuseIPDB API integration.
+* Fetching and parsing threat intelligence reports in JSON format for target IP addresses.
+* Secured API credentials using environment variables (`.env`).
+
+### Upcoming Features (To-Do)
+* **Database Architecture:** SQLite / PostgreSQL integration for persistent data storage and querying.
+* **CLI Interface:** Building an interactive Command Line Interface for dynamic user queries.
+* **Bulk Analysis:** Multi-IP scanning capabilities and automated reporting.
