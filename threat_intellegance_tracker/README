@@ -1,15 +1,68 @@
-# Threat Intelligence Tracker (WIP)
+# Threat Intelligence Tracker
 
-**Status:** This project is currently in active development (Work in Progress).
+A robust Command Line Interface (CLI) application built with Python. This tool automates the process of fetching threat intelligence data for suspicious IP addresses via the AbuseIPDB API, parsing the JSON responses, and securely storing the targeted metrics into a local SQLite relational database for historical tracking.
 
-This backend tool is being developed to automatically fetch, parse, and analyze malicious IP addresses and vulnerability reports from open-source threat intelligence platforms (currently utilizing AbuseIPDB).
+## Architecture & Features
 
-### Current Features (v0.1)
-* Established AbuseIPDB API integration.
-* Fetching and parsing threat intelligence reports in JSON format for target IP addresses.
-* Secured API credentials using environment variables (`.env`).
+* Automated API Integration: Connects seamlessly to the AbuseIPDB v2 API to retrieve real-time threat intelligence.
+* Secure Credential Management: Utilizes environment variables (`.env`) to isolate and protect API keys, preventing accidental credential leaks to public repositories.
+* Persistent Local Storage: Implements an SQLite3 database with a structured schema (`threat_intel.db`) to store queried IP addresses, abuse confidence scores, ISP details, and geographic data.
+* Data Integrity & Error Handling: Includes duplicate entry prevention using SQL `UNIQUE` constraints and comprehensive `try-except` blocks to handle network timeouts or malformed data.
+* Interactive CLI Dashboard: Features a user-friendly terminal interface for scanning new targets and reviewing local database records without making redundant API calls.
+* Modular Design: Separates concerns by dividing API/CLI logic (`main.py`) from database operations (`database.py`).
 
-### Upcoming Features (To-Do)
-* **Database Architecture:** SQLite / PostgreSQL integration for persistent data storage and querying.
-* **CLI Interface:** Building an interactive Command Line Interface for dynamic user queries.
-* **Bulk Analysis:** Multi-IP scanning capabilities and automated reporting.
+## Prerequisites
+
+Before running this tool, ensure you have the following installed:
+* Python 3.x
+* An active [AbuseIPDB](https://www.abuseipdb.com/) account and API Key.
+
+## Installation & Setup
+
+1. Clone the repository to your local machine:
+```bash
+git clone [https://github.com/mstfd5/threat-intellegance-tracker.git](https://github.com/mstfd5/threat-intellegance-tracker.git)
+cd threat-intellegance-tracker
+
+    Install the required external dependencies:
+
+Bash
+
+pip install requests python-dotenv
+
+    Secure Configuration:
+    Create a file named .env in the root directory of the project. Open the file and add your actual API key exactly as shown below:
+
+Plaintext
+
+ABUSEIPDB_API_KEY=your_actual_api_key_here
+
+Usage
+
+Start the application by running the main script from your terminal:
+Bash
+
+python main.py
+
+CLI Options Explained
+
+    Option 1 (Scan): Prompts the user for a target IP address. The system fetches the data from the external API, prints a formatted JSON output to the terminal, and automatically inserts the parsed data into the local database.
+
+    Option 2 (List): Connects to the local SQLite database and retrieves the 5 most recent scans, displaying them in a formatted table layout.
+
+    Option 3 (Exit): Safely closes the database connections and terminates the application.
+
+Project Structure
+Plaintext
+
+threat-intelligence-tracker/
+|-- .env               # Local environment variables (Git ignored)
+|-- .gitignore         # Specifies intentionally untracked files (e.g., .env, __pycache__)
+|-- database.py        # SQLite database connection, table initialization, and SQL query definitions
+|-- main.py            # CLI logic, API request execution, and application entry point
+|-- threat_intel.db    # Relational database file (Auto-generated upon first run)
+|-- README.md          # Comprehensive project documentation
+
+Disclaimer
+
+This tool is developed for educational purposes and internal network analysis. Ensure you comply with AbuseIPDB's terms of service regarding rate limits and API usage.
